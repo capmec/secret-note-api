@@ -22,7 +22,7 @@ export class SecretNoteController {
   }
 
   @Get()
-  findAll() {
+  findAllNotes() {
     return this.secretNoteService.findAll();
   }
 
