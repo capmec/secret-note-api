@@ -3,6 +3,8 @@ import { SecretNoteController } from './secret-note.controller';
 import { SecretNoteService } from './secret-note.service';
 import { PrismaService } from '../prisma.service';
 import { EncryptionService } from '../encryption.service';
+import { CreateNoteDto } from './dto/create-note.dto';
+import { UpdateNoteDto } from './dto/update-note.dto';
 
 describe('SecretNoteController', () => {
   let controller: SecretNoteController;
@@ -21,7 +23,7 @@ describe('SecretNoteController', () => {
       note: 'encryptedNote',
       createdAt: new Date(),
     }),
-    remove: jest.fn().mockResolvedValue({}),
+    remove: jest.fn().mockResolvedValue(undefined), // Update to return undefined
   };
 
   beforeEach(async () => {
@@ -43,18 +45,19 @@ describe('SecretNoteController', () => {
   });
 
   it('should create a secret note', async () => {
-    const note = await controller.create({ note: 'testNote' });
+    const createNoteDto: CreateNoteDto = { note: 'testNote' };
+    const note = await controller.create(createNoteDto);
     expect(note).toEqual({
       id: 1,
       note: 'encryptedNote',
-      createdAt: new Date(),
+      createdAt: expect.any(Date),
     });
     expect(service.create).toHaveBeenCalledWith('testNote');
   });
 
   it('should find all secret notes', async () => {
     const notes = await controller.findAll();
-    expect(notes).toEqual([{ id: 1, createdAt: new Date() }]);
+    expect(notes).toEqual([{ id: 1, createdAt: expect.any(Date) }]);
     expect(service.findAll).toHaveBeenCalled();
   });
 
@@ -71,11 +74,12 @@ describe('SecretNoteController', () => {
   });
 
   it('should update a secret note', async () => {
-    const note = await controller.update(1, { note: 'updatedNote' });
+    const updateNoteDto: UpdateNoteDto = { note: 'updatedNote' };
+    const note = await controller.update(1, updateNoteDto);
     expect(note).toEqual({
       id: 1,
       note: 'encryptedNote',
-      createdAt: new Date(),
+      createdAt: expect.any(Date),
     });
     expect(service.update).toHaveBeenCalledWith(1, 'updatedNote');
   });

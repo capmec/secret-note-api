@@ -1,73 +1,63 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Secret Note API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is a simple CRUD (Create, Read, Update, Delete) API for managing encrypted notes, built using TypeScript, NestJS, Prisma ORM, PostgreSQL, and Jest for testing. The API allows a single user to store, retrieve, update, and delete encrypted notes.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- **Store a note**: Encrypts the note and stores it in the database.
+- **Retrieve a list of all notes**: Provides the necessary information like creation date and ID.
+- **Retrieve a single note**: Returns the decrypted value or the encrypted value based on the request.
+- **Delete a single note**: Removes a note with a given ID.
+- **Update a single note**: Updates a note with a given ID and encrypts it again before storing.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Technologies Used
 
-## Installation
+- **TypeScript**: Provides static typing for better code quality and maintainability.
+- **NestJS**: A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.
+- **Prisma ORM**: A next-generation ORM that makes working with databases easy and intuitive.
+- **PostgreSQL**: A powerful, open source object-relational database system.
+- **Jest**: A delightful JavaScript testing framework with a focus on simplicity.
+
+## Getting Started
+
+### Prerequisites
+
+- **Node.js**: Make sure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
+- **Docker**: Required for running the application in a container. You can download it from [docker.com](https://www.docker.com/).
+
+### Installation
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/yourusername/secret-note-api.git
+   cd secret-note-api
+   ```
+
+2. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**:
+   Create a `.env` file in the root directory with the following content:
+
+   ```env
+   DATABASE_URL="postgresql://user:password@localhost:5432/secret_notes"
+   ENCRYPTION_KEY="your-encryption-key"
+   ```
+
+4. **Set up the database**:
+   Run the following command to set up the database schema:
+   ```bash
+   npx prisma migrate dev
+   ```
+
+### Running the Application
+
+You can run the application using Docker:
 
 ```bash
-$ npm install
+docker-compose up --build
 ```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).

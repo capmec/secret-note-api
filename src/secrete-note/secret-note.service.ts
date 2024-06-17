@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { EncryptionService } from '../encryption.service';
-import { SecretNote } from '.prisma/client';
+import { SecretNote } from '@prisma/client';
 
 @Injectable()
 export class SecretNoteService {

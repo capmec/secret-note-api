@@ -1,22 +1,16 @@
+# docker-compose.yml
+
+version: '3.8'
 services:
-  db:
-    image: postgres
+  postgres:
+    image: postgres:13.5
     restart: always
     environment:
-      POSTGRES_USER: username
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: secretnote
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres:/var/lib/postgresql/data
     ports:
       - '5432:5432'
-  api:
-    build: .
-    environment:
-      DATABASE_URL: postgres://username:password@db:5432/secretnote
-    ports:
-      - '3000:3000'
-    depends_on:
-      - db
-    volumes:
-      - .:/app
-      - /app/node_modules
-    command: npm run start:dev
+volumes:
+  postgres:

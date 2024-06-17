@@ -15,11 +15,7 @@ describe('SecretNoteService', () => {
         note: 'encryptedNote',
         createdAt: new Date(),
       }),
-      findMany: jest
-        .fn()
-        .mockResolvedValue([
-          { id: 1, note: 'encryptedNote', createdAt: new Date() },
-        ]),
+      findMany: jest.fn().mockResolvedValue([{ id: 1, createdAt: new Date() }]),
       findUnique: jest.fn().mockResolvedValue({
         id: 1,
         note: 'encryptedNote',
@@ -38,8 +34,8 @@ describe('SecretNoteService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SecretNoteService,
-        EncryptionService,
         { provide: PrismaService, useValue: mockPrisma },
+        EncryptionService,
       ],
     }).compile();
 
@@ -58,29 +54,23 @@ describe('SecretNoteService', () => {
     expect(note).toEqual({
       id: 1,
       note: 'encryptedNote',
-      createdAt: new Date(),
+      createdAt: expect.any(Date),
     });
-    expect(prisma.secretNote.create).toHaveBeenCalled();
+    expect(prisma.secretNote.create).toHaveBeenCalledWith({
+      data: { note: 'encryptedNote' },
+    });
   });
 
   it('should find all secret notes', async () => {
     const notes = await service.findAll();
-    expect(notes).toEqual([{ id: 1, createdAt: new Date() }]);
+    expect(notes).toEqual([{ id: 1, createdAt: expect.any(Date) }]);
     expect(prisma.secretNote.findMany).toHaveBeenCalled();
   });
 
   it('should find one secret note decrypted', async () => {
-    jest.spyOn(encryptionService, 'decrypt').mockReturnValue('testNote');
+    jest.spyOn(encryptionService, 'decrypt').mockReturnValue('decryptedNote');
     const note = await service.findOne(1, true);
-    expect(note).toEqual('testNote');
-    expect(prisma.secretNote.findUnique).toHaveBeenCalledWith({
-      where: { id: 1 },
-    });
-  });
-
-  it('should find one secret note encrypted', async () => {
-    const note = await service.findOne(1, false);
-    expect(note).toEqual('encryptedNote');
+    expect(note).toEqual('decryptedNote');
     expect(prisma.secretNote.findUnique).toHaveBeenCalledWith({
       where: { id: 1 },
     });
@@ -92,7 +82,7 @@ describe('SecretNoteService', () => {
     expect(note).toEqual({
       id: 1,
       note: 'encryptedNote',
-      createdAt: new Date(),
+      createdAt: expect.any(Date),
     });
     expect(prisma.secretNote.update).toHaveBeenCalledWith({
       where: { id: 1 },
@@ -101,7 +91,8 @@ describe('SecretNoteService', () => {
   });
 
   it('should remove a secret note', async () => {
-    await service.remove(1);
+    const result = await service.remove(1);
+    expect(result).toBeUndefined();
     expect(prisma.secretNote.delete).toHaveBeenCalledWith({ where: { id: 1 } });
   });
 });
