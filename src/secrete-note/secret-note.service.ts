@@ -13,11 +13,13 @@ export class SecretNoteService {
   async create(note: string): Promise<SecretNote> {
     const encryptedNote = this.encryptionService.encrypt(note);
     return this.prisma.secretNote.create({
-      data: { note: encryptedNote },
+      data: {
+        note: encryptedNote,
+      },
     });
   }
 
-  async findAll(): Promise<Partial<SecretNote>[]> {
+  async findAll(): Promise<{ id: number; createdAt: Date }[]> {
     const notes = await this.prisma.secretNote.findMany({
       select: {
         id: true,
@@ -28,12 +30,16 @@ export class SecretNoteService {
     return notes;
   }
 
-  async findOne(id: number, decrypted: boolean): Promise<string> {
-    const note = await this.prisma.secretNote.findUnique({ where: { id } });
-    if (decrypted) {
-      return this.encryptionService.decrypt(note.note);
+  async findOne(id: number, decrypt = false): Promise<string> {
+    const note = await this.prisma.secretNote.findUnique({
+      where: { id },
+    });
+
+    if (!note) {
+      throw new Error('Note not found');
     }
-    return note.note;
+
+    return decrypt ? this.encryptionService.decrypt(note.note) : note.note;
   }
 
   async update(id: number, newNote: string): Promise<SecretNote> {
@@ -44,7 +50,9 @@ export class SecretNoteService {
     });
   }
 
-  async remove(id: number): Promise<void> {
-    await this.prisma.secretNote.delete({ where: { id } });
+  async remove(id: number): Promise<SecretNote> {
+    return this.prisma.secretNote.delete({
+      where: { id },
+    });
   }
 }
