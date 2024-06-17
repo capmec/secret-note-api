@@ -18,8 +18,14 @@ export class SecretNoteService {
   }
 
   async findAll(): Promise<Partial<SecretNote>[]> {
-    const notes = await this.prisma.secretNote.findMany();
-    return notes.map((note) => ({ id: note.id, createdAt: note.createdAt }));
+    const notes = await this.prisma.secretNote.findMany({
+      select: {
+        id: true,
+        note: true,
+        createdAt: true,
+      },
+    });
+    return notes;
   }
 
   async findOne(id: number, decrypted: boolean): Promise<string> {
