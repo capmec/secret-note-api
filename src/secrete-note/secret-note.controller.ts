@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { SecretNoteService } from './secret-note.service';
 
-@Controller('secret-notes')
+@Controller('notes')
 export class SecretNoteController {
   constructor(private readonly secretNoteService: SecretNoteService) {}
 

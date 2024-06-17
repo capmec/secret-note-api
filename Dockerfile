@@ -1,14 +1,7 @@
-# Dockerfile
-FROM node:14-alpine
-
+FROM node:16-alpine
 WORKDIR /app
-
-COPY package.json ./
-COPY package-lock.json ./
-
+COPY package*.json ./
 RUN npm install
-
 COPY . .
-
-EXPOSE 3000
-CMD ["npm", "run", "start:dev"]
+RUN npm run build
+CMD ["node", "dist/main"]
