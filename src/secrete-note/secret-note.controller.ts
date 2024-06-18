@@ -34,6 +34,7 @@ export class SecretNoteController {
 
   @Put(':id')
   update(@Param('id') id: number, @Body() updateNoteDto: UpdateNoteDto) {
+    console.log('Update Note DTO:', updateNoteDto);
     return this.secretNoteService.update(+id, updateNoteDto.note);
   }
 

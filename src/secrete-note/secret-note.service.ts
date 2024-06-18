@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { EncryptionService } from '../encryption.service';
 import { SecretNote } from '@prisma/client';
@@ -50,9 +50,17 @@ export class SecretNoteService {
     return result;
   }
 
-  async update(id: number, newNote: string): Promise<SecretNote> {
-    this.logger.log(`Updating note with id ${id}...`);
-    const encryptedNote = this.encryptionService.encrypt(newNote);
+  async update(id: number, note: string) {
+    console.log('Note to be updated:', note); // Log the note to be updated
+
+    const existingNote = await this.prisma.secretNote.findUnique({
+      where: { id },
+    });
+    if (!existingNote) {
+      throw new NotFoundException(`Note with ID ${id} not found`);
+    }
+
+    const encryptedNote = this.encryptionService.encrypt(note);
     return this.prisma.secretNote.update({
       where: { id },
       data: { note: encryptedNote },
