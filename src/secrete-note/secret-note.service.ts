@@ -27,6 +27,7 @@ export class SecretNoteService {
     const notes = await this.prisma.secretNote.findMany({
       select: {
         id: true,
+        note: true,
         createdAt: true,
       },
     });

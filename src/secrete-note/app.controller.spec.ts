@@ -56,7 +56,7 @@ describe('SecretNoteController', () => {
   });
 
   it('should find all secret notes', async () => {
-    const notes = await controller.findAll();
+    const notes = await controller.findAllNotes();
     expect(notes).toEqual([{ id: 1, createdAt: expect.any(Date) }]);
     expect(service.findAll).toHaveBeenCalled();
   });

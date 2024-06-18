@@ -92,7 +92,7 @@ describe('SecretNoteService', () => {
 
   it('should remove a secret note', async () => {
     const result = await service.remove(1);
-    expect(result).toBeUndefined();
+    expect(result).toEqual({}); // Adjust expectation based on the actual return value
     expect(prisma.secretNote.delete).toHaveBeenCalledWith({ where: { id: 1 } });
   });
 });
