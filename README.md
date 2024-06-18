@@ -44,8 +44,10 @@ This is a simple CRUD (Create, Read, Update, Delete) API for managing encrypted 
    Create a `.env` file in the root directory with the following content:
 
    ```env
-   DATABASE_URL="postgresql://user:password@localhost:5432/secret_notes"
-   ENCRYPTION_KEY="your-encryption-key"
+   DATABASE_URL="postgresql://user:password@localhost:5432/secretnote"
+
+ENCRYPTION_KEY=4D63762DF97875B2D27FCC16E0390605C5C045DC87860DFCE45B7D82CB6569B0
+IV=U+544BAp3d4mkiw4MAsjy4XT0uIA+xwpW4/Gn8nl18o=
    ```
 
 4. **Set up the database**:
